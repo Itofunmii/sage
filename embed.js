@@ -1,4 +1,4 @@
-const widgetContainer = document.querySelector('.elfsight-app');
+const widgetContainer = document.querySelector('.elfsight-app-be6c2680-1e19-4e35-b766-fc340c0a5de9');
 
 if (widgetContainer) {
   console.log("Found Elfsight widget:", widgetContainer);
@@ -17,7 +17,7 @@ if (widgetContainer) {
 
   // Create iframe
   const iframe = document.createElement("iframe");
-  iframe.src = "https://testsage.netlify.app/";
+  iframe.src = "";
   iframe.style.width = "100%";
   iframe.style.height = "100%";
   iframe.style.border = "none";
