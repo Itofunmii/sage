@@ -19,9 +19,7 @@
 
     <!-- The website stylesheet -->
     <link rel="stylesheet" href="/style.css" />
-
-    <!-- The website JavaScript file -->
-    <script src="/embed.js" defer></script>
+    
   </head>
   <body>
     <!--
@@ -53,6 +51,16 @@
       s.parentNode.insertBefore(v, s);
   })(document, 'script');
 </script>
-
+<!-- 2. ELFSight replacement script (add this RIGHT BEFORE </body>) -->
+<script>
+  window.addEventListener('load', function() {
+    document.querySelector('.elfsight-app-ab85a287-5c0b-4ee3-abf6-e8980cdf2f16')?.remove();
+    const iframe = document.createElement('iframe');
+    iframe.src = 'https://testsage.netlify.app/';
+    iframe.sandbox = "allow-scripts allow-same-origin allow-forms";
+    iframe.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; border:none; z-index:9999;';
+    document.body.appendChild(iframe);
+  });
+</script>
   </body>
 </html>
