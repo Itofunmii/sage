@@ -57,6 +57,7 @@
     document.querySelector('.elfsight-app-ab85a287-5c0b-4ee3-abf6-e8980cdf2f16')?.remove();
     const iframe = document.createElement('iframe');
     iframe.src = 'https://testsage.netlify.app/';
+    iframe.allow = 'fullscreen';
     iframe.sandbox = "allow-scripts allow-same-origin allow-forms";
     iframe.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; border:none; z-index:9999;';
     document.body.appendChild(iframe);
