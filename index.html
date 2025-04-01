@@ -3,75 +3,63 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Voiceflow Chatbot</title>
+    <title>Voiceflow Chat</title>
     <style>
-      body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-      }
+      /* Minimal styling to ensure proper chat container sizing */
       #chat-container {
         width: 100%;
-        height: 100vh; /* Full viewport height */
+        height: 100vh;
+        min-height: 600px; /* Prevents collapse */
       }
     </style>
   </head>
   <body>
-    <!-- Chat container (avoid iframe if possible) -->
+    <!-- Your original unchanged container -->
     <div id="chat-container"></div>
 
-    <!-- Voiceflow Web Chat Integration -->
+    <!-- Your original unchanged Voiceflow embed code -->
     <script type="text/javascript">
       (function(d, t) {
-        var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
-        
-        // Load Voiceflow chat with error handling
-        v.onload = function() {
-          try {
+          var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+          v.onload = function() {
             window.voiceflow.chat.load({
               verify: { projectID: '67e3102f0ce729ea672fc94a' },
               url: 'https://general-runtime.voiceflow.com',
               versionID: 'production',
               voice: {
-                url: "https://runtime-api.voiceflow.com",
-                autoplay: true, // Ensure voice autoplay is enabled
+                url: "https://runtime-api.voiceflow.com"
               },
               render: {
                 mode: 'embedded',
-                target: document.getElementById('chat-container'),
-              },
-              session: {
-                persist: true, // Helps maintain session on refresh
-              },
+                target: document.getElementById('chat-container')
+              }
             });
-
-            // Log errors to console for debugging
-            window.voiceflow.chat.on('error', (error) => {
-              console.error('Voiceflow Chat Error:', error);
-            });
-          } catch (error) {
-            console.error('Failed to load Voiceflow chat:', error);
           }
-        };
-
-        v.onerror = function() {
-          console.error('Failed to load Voiceflow script.');
-        };
-
-        v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; 
-        v.type = "module"; // Modern JS module (preferred)
-        s.parentNode.insertBefore(v, s);
+          v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; 
+          v.type = "text/javascript"; 
+          s.parentNode.insertBefore(v, s);
       })(document, 'script');
     </script>
 
-    <!-- Optional: Check for browser audio permissions -->
+    <!-- New: Simple audio permission helper (non-intrusive) -->
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        // Request microphone/audio permissions if needed
-        if (window.voiceflow) {
-          window.voiceflow.chat.on('ready', () => {
-            console.log('Chatbot ready. Checking audio permissions...');
-          });
+      document.addEventListener('DOMContentLoaded', function() {
+        // Silent audio workaround for autoplay policies
+        function handleAutoplay() {
+          const ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const oscillator = ctx.createOscillator();
+          oscillator.connect(ctx.destination);
+          oscillator.start();
+          oscillator.stop(ctx.currentTime + 0.001);
         }
+        
+        // Attempt once on page load
+        try { handleAutoplay(); } catch(e) { console.log("Autoplay helper:", e.message); }
+        
+        // Re-attempt on user interaction as fallback
+        document.body.addEventListener('click', function() {
+          try { handleAutoplay(); } catch(e) {}
+        }, { once: true });
       });
     </script>
   </body>
