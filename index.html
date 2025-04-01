@@ -4,20 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Voiceflow Chat</title>
-    <style>
-      /* Minimal styling to ensure proper chat container sizing */
-      #chat-container {
-        width: 100%;
-        height: 100vh;
-        min-height: 600px; /* Prevents collapse */
-      }
-    </style>
   </head>
   <body>
-    <!-- Your original unchanged container -->
     <div id="chat-container"></div>
 
-    <!-- Your original unchanged Voiceflow embed code -->
     <script type="text/javascript">
       (function(d, t) {
           var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
@@ -32,6 +22,10 @@
               render: {
                 mode: 'embedded',
                 target: document.getElementById('chat-container')
+              },
+              // ONLY ADDITION: Session persistence
+              session: {
+                persist: true  // <-- This is the only new line
               }
             });
           }
@@ -39,28 +33,6 @@
           v.type = "text/javascript"; 
           s.parentNode.insertBefore(v, s);
       })(document, 'script');
-    </script>
-
-    <!-- New: Simple audio permission helper (non-intrusive) -->
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // Silent audio workaround for autoplay policies
-        function handleAutoplay() {
-          const ctx = new (window.AudioContext || window.webkitAudioContext)();
-          const oscillator = ctx.createOscillator();
-          oscillator.connect(ctx.destination);
-          oscillator.start();
-          oscillator.stop(ctx.currentTime + 0.001);
-        }
-        
-        // Attempt once on page load
-        try { handleAutoplay(); } catch(e) { console.log("Autoplay helper:", e.message); }
-        
-        // Re-attempt on user interaction as fallback
-        document.body.addEventListener('click', function() {
-          try { handleAutoplay(); } catch(e) {}
-        }, { once: true });
-      });
     </script>
   </body>
 </html>
